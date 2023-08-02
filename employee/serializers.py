@@ -2,13 +2,17 @@ from rest_framework import serializers
 from rest_framework.exceptions import ParseError, NotFound, ValidationError, NotAcceptable
 
 from employee.models import EmployeeProfile, FamilyProfile
-from user.serializers import UserSerializer
+from team.serializers import TeamSerializer
+from user.serializers import UserRoleSerializer, UserSerializer
 
 
 
 
 class EmployeeProfileSerializer(serializers.ModelSerializer):
     user = serializers.SerializerMethodField()
+    team = serializers.SerializerMethodField()
+    reporting_person = serializers.SerializerMethodField()
+    user_group = serializers.SerializerMethodField()
 
     class Meta:
         model = EmployeeProfile
@@ -20,6 +24,27 @@ class EmployeeProfileSerializer(serializers.ModelSerializer):
         except:
             user = None
         return user
+    
+    def get_team(self, instance):
+        try:
+            team = TeamSerializer(instance.team).data
+        except:
+            team = None
+        return team
+    
+    def get_reporting_person(self, instance):
+        try:
+            reporting_person = UserSerializer(instance.reporting_person).data
+        except:
+            reporting_person = None
+        return reporting_person
+    
+    def get_user_group(self, instance):
+        try:
+            user_group = UserRoleSerializer(instance.user_group).data
+        except:
+            user_group = None
+        return user_group
 
 
 

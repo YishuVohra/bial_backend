@@ -5,9 +5,56 @@ from rest_framework import status
 from rest_framework.exceptions import ParseError, NotFound, ValidationError, NotAcceptable
 
 from team.models import Department, Team
-from team.serializers import CreateTeamSerializer, TeamSerializer
+from team.serializers import CreateDepartmentSerializer, CreateTeamSerializer, DepartmentSerializer, TeamSerializer
 
 
+
+
+
+class CreateDepartmentAPIView(CreateAPIView):
+    serializer_class = CreateDepartmentSerializer
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        serializer = self.serializer_class(context={'request':request})
+        resp = serializer.create_department(validated_data=request.data)
+        return Response(resp, status=status.HTTP_201_CREATED)
+    
+
+
+class FetchAllDepartmentsAPIView(ListAPIView):
+    serializer_class = DepartmentSerializer
+    permission_classes = (AllowAny,)
+
+    def get_queryset(self):
+        queryset = Department.objects.all()
+
+        return queryset
+    
+
+
+class UpdateDepartmentAPIView(UpdateAPIView):
+    permission_classes = (AllowAny,)
+
+    def put(self, request, *args, **kwargs):
+        department_id = request.data.get('department_id')
+
+        if department_id == "null" or department_id == '':
+            department_id = None
+
+        department_obj = Department.objects.filter(id = department_id).last()
+        if not department_obj:
+            raise NotFound({
+                'message':'This Department does not exists.'
+            })
+        
+        if request.data.get('name'):
+            department_obj.name = request.data['name']
+
+        department_obj.save()
+            
+
+        return Response({"message": "Department Updated Successfully !!"}, status=200)
 
 
 

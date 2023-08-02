@@ -7,6 +7,19 @@ from team.models import Department, Team
 
 
 
+class CreateDepartmentSerializer(serializers.ModelSerializer):
+
+    def create_department(self, validated_data):
+        name = validated_data.get('name')
+
+        department_obj = Department.objects.create(name= name)
+
+        return {
+                'message':'Department details added successfully !!'
+            }
+
+
+
 class CreateTeamSerializer(serializers.ModelSerializer):
 
     def create_team(self, validated_data):

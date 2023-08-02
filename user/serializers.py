@@ -177,3 +177,12 @@ class UserPermissionSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserPermission
         fields = '__all__'
+
+
+
+class UserRoleSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = UserRole
+        fields = '__all__'
+
