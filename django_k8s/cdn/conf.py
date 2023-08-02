@@ -1,5 +1,7 @@
 import os
 
+from django_k8s.local_settings import BASE_DIR
+
 #AWS_STORAGE_BUCKET_NAME='django-k8s-space'
 #AWS_S3_ENDPOINT_URL="https://sgp1.digitaloceanspaces.com"
 #AWS_S3_OBJECT_PARAMETERS = {
@@ -22,6 +24,7 @@ AWS_S3_OBJECT_PARAMETERS = {
 }
 AWS_LOCATION = 'static'
 STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
-MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+MEDIA_URL = '/media/' # remove after deployment
+# MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'  // uncomment after deployment
 # DEFAULT_FILE_STORAGE = "django_k8s.cdn.backends.MediaRootS3BotoStorage"  // uncomment after deployment
 # STATICFILES_STORAGE = "django_k8s.cdn.backends.StaticRootS3BotoStorage"  // uncomment after deployment
