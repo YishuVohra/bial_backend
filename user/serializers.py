@@ -2,7 +2,7 @@ import random
 from rest_framework import serializers
 from employee.models import EmployeeProfile
 from team.models import Team
-from user.models import User, UserRole
+from user.models import User, UserPermission, UserRole
 from rest_framework.exceptions import ParseError, NotFound, ValidationError, NotAcceptable
 from django.db.models import Q
 
@@ -154,3 +154,26 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('fullname', 'email', 'username', 'gender', 'phonenumber')
+
+
+
+class CreateUserPermissionSerializer(serializers.ModelSerializer):
+
+    def create_userPermission(self, validated_data):
+        permission_name = validated_data.get('permission_name')
+        permission_desc = validated_data.get('permission_desc')
+
+        permission_obj = UserPermission.objects.create(permission_name= permission_name, permission_desc= permission_desc)
+
+
+        return {
+                'message':'Permission added successfully !!'
+            }    
+
+
+
+class UserPermissionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = UserPermission
+        fields = '__all__'

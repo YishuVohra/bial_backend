@@ -23,5 +23,5 @@ AWS_S3_OBJECT_PARAMETERS = {
 AWS_LOCATION = 'static'
 STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{AWS_LOCATION}/'
 MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
-DEFAULT_FILE_STORAGE = "django_k8s.cdn.backends.MediaRootS3BotoStorage"
-STATICFILES_STORAGE = "django_k8s.cdn.backends.StaticRootS3BotoStorage"
+# DEFAULT_FILE_STORAGE = "django_k8s.cdn.backends.MediaRootS3BotoStorage"  // uncomment after deployment
+# STATICFILES_STORAGE = "django_k8s.cdn.backends.StaticRootS3BotoStorage"  // uncomment after deployment

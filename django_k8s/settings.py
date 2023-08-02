@@ -14,6 +14,7 @@ from pathlib import Path
 from dotenv import dotenv_values
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+print("BASE_DIR", BASE_DIR)
 
 myvars=dotenv_values('/app/.env')
 

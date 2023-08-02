@@ -205,4 +205,16 @@ class UserRole(CommonFieldsModel):
 
 	class Meta:
 		db_table = 'user_role'
+                
+
+
+class UserPermission(CommonFieldsModel):
+	'''
+		User permission
+	'''
+	permission_name = models.CharField(max_length=30, unique=True)
+	permission_desc = models.CharField(max_length=100)
+
+	class Meta:
+		db_table = 'user_permission'
 

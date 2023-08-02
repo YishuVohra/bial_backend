@@ -89,3 +89,14 @@ class AddFamilyAPIView(APIView):
         serializer = self.serializer_class(context={'request':request})
         resp = serializer.add_family(validated_data=request.data)
         return Response(resp, status=status.HTTP_201_CREATED)
+    
+
+
+class FetchAllEmployeesProfileApiView(ListAPIView):
+    serializer_class = EmployeeProfileSerializer
+    permission_classes = (AllowAny,)
+
+    def get_queryset(self):
+        queryset = EmployeeProfile.objects.all()
+
+        return queryset
