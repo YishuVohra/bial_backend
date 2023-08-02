@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework import routers
-from .views import CreateUserPermissionAPIView, EmployeeRegistrationAPIView, FetchAllUserPermissionsAPIView, LoginAPIView, ResetPasswordAPIView, UpdateUserPermissionAPIView
+from .views import CreateUserPermissionAPIView, EmployeeRegistrationAPIView, FetchAllUserPermissionsAPIView, FetchAllUserRolesAPIView, LoginAPIView, ResetPasswordAPIView, UpdateUserPermissionAPIView
 
 
 router = routers.DefaultRouter()
@@ -12,6 +12,7 @@ urlpatterns = [
     path('fetch_all_permissions/', FetchAllUserPermissionsAPIView.as_view(), name='fetch_all_permissions'),
     path('update_permission/', UpdateUserPermissionAPIView.as_view(), name='update_permission'),
     path('reset_password/', ResetPasswordAPIView.as_view(), name='reset_password'),
+    path('fetch_all_user_roles/', FetchAllUserRolesAPIView.as_view(), name='fetch_all_user_roles'),
 ]
 
 urlpatterns += router.urls

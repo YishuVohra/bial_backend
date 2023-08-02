@@ -3,9 +3,9 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from django.db.models import Q
 from rest_framework import status
-from user.models import User, UserPermission
+from user.models import User, UserPermission, UserRole
 
-from user.serializers import CreateUserPermissionSerializer, EmployeeRegistrationSerializer, LoginSerializer, UserPermissionSerializer
+from user.serializers import CreateUserPermissionSerializer, EmployeeRegistrationSerializer, LoginSerializer, UserPermissionSerializer, UserRoleSerializer
 from common.views import DataWrapperViewSet, GenericAPIView
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, RetrieveAPIView, RetrieveUpdateAPIView, DestroyAPIView
 from rest_framework.exceptions import ParseError, NotFound, ValidationError, NotAcceptable
@@ -107,3 +107,14 @@ class ResetPasswordAPIView(UpdateAPIView):
 
 
         return Response({"message": "Password Reset Done Successfully !!"}, status=200)
+    
+
+
+class FetchAllUserRolesAPIView(ListAPIView):
+    serializer_class = UserRoleSerializer
+    permission_classes = (AllowAny,)
+
+    def get_queryset(self):
+        queryset = UserRole.objects.all()
+
+        return queryset
