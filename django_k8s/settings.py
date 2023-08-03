@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'employee',
     'team',
     "shift",
-    # "profiles",
+    "attendance",
     # "banking",
     # "loan",
     # "account", 
