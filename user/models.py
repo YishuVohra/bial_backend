@@ -217,4 +217,17 @@ class UserPermission(CommonFieldsModel):
 
 	class Meta:
 		db_table = 'user_permission'
+                
+
+
+class RolePermissionsMapping(models.Model):
+	'''
+		Mapping of role and permissions
+	'''
+	role = models.ForeignKey(UserRole, on_delete=models.CASCADE)
+	permission = models.ForeignKey(UserPermission, on_delete=models.CASCADE)
+
+	class Meta:
+		db_table = 'user_role_permission_mapping'
+		unique_together = (('role','permission'),)
 

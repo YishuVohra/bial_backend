@@ -1,8 +1,9 @@
 import random
 from rest_framework import serializers
+from common.serializers import DynamicFieldsModelSerializer
 from employee.models import EmployeeProfile
 from team.models import Team
-from user.models import User, UserPermission, UserRole
+from user.models import RolePermissionsMapping, User, UserPermission, UserRole
 from rest_framework.exceptions import ParseError, NotFound, ValidationError, NotAcceptable
 from django.db.models import Q
 
@@ -186,3 +187,44 @@ class UserRoleSerializer(serializers.ModelSerializer):
         model = UserRole
         fields = '__all__'
 
+
+
+class CreateRolePermissionsMappingSerializer(serializers.ModelSerializer):
+
+    def create_RolePermissionMapping(self, validated_data):
+        role = validated_data.get('role_id')
+        permission = validated_data.get('permission_id')
+
+        role_obj = UserRole.objects.filter(id = role).last()
+        permission_obj = UserPermission.objects.filter(id = permission).last()
+
+        role_permission_obj = RolePermissionsMapping.objects.create(role= role_obj, permission= permission_obj)
+
+        return {
+                'message':'Role Permission mapping done successfully !!'
+            } 
+
+
+
+class RolePermissionsMappingSerializer(DynamicFieldsModelSerializer):
+    role = serializers.SerializerMethodField()
+    permission = serializers.SerializerMethodField()
+    '''
+    '''
+    class Meta:
+        model = RolePermissionsMapping
+        fields = '__all__'
+
+    def get_role(self, instance):
+        try:
+            role = UserRoleSerializer(instance.role).data
+        except:
+            role = None
+        return role
+    
+    def get_permission(self, instance):
+        try:
+            permission = UserPermissionSerializer(instance.permission).data
+        except:
+            permission = None
+        return permission

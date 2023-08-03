@@ -3,9 +3,9 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from django.db.models import Q
 from rest_framework import status
-from user.models import User, UserPermission, UserRole
+from user.models import RolePermissionsMapping, User, UserPermission, UserRole
 
-from user.serializers import CreateUserPermissionSerializer, EmployeeRegistrationSerializer, LoginSerializer, UserPermissionSerializer, UserRoleSerializer
+from user.serializers import CreateRolePermissionsMappingSerializer, CreateUserPermissionSerializer, EmployeeRegistrationSerializer, LoginSerializer, RolePermissionsMappingSerializer, UserPermissionSerializer, UserRoleSerializer
 from common.views import DataWrapperViewSet, GenericAPIView
 from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, RetrieveAPIView, RetrieveUpdateAPIView, DestroyAPIView
 from rest_framework.exceptions import ParseError, NotFound, ValidationError, NotAcceptable
@@ -116,5 +116,27 @@ class FetchAllUserRolesAPIView(ListAPIView):
 
     def get_queryset(self):
         queryset = UserRole.objects.all()
+
+        return queryset
+    
+
+
+class CreateRolePermissionMappingAPIView(CreateAPIView):
+    serializer_class = CreateRolePermissionsMappingSerializer
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        serializer = self.serializer_class(context={'request':request})
+        resp = serializer.create_RolePermissionMapping(validated_data=request.data)
+        return Response(resp, status=status.HTTP_201_CREATED)
+    
+
+
+class FetchAllRolePermissionsMappingAPIView(ListAPIView):
+    serializer_class = RolePermissionsMappingSerializer
+    permission_classes = (AllowAny,)
+
+    def get_queryset(self):
+        queryset = RolePermissionsMapping.objects.all()
 
         return queryset
